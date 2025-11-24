@@ -8,6 +8,7 @@ version = 0.1
 requirements = python3,kivy,requests
 orientation = portrait
 android.permissions = INTERNET, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
+android.accept_sdk_license = True
 # icon.filename = icon.png
 
 [buildozer]
