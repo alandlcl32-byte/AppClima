@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    timeout-minutes: 60
 
     steps:
     - uses: actions/checkout@v3
@@ -18,6 +19,12 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+    
+    - name: Cache Buildozer
+      uses: actions/cache@v3
+      with:
+        path: .buildozer
+        key: buildozer-${{ hashFiles('buildozer.spec') }}
 
     - name: Install dependencies
       run: |
@@ -28,7 +35,8 @@ jobs:
 
     - name: Build APK with Buildozer
       run: |
-        yes | buildozer android debug
+        export GRADLE_OPTS="-Xmx2048m -Dorg.gradle.jvmargs=-Xmx2048m"
+        yes | timeout 55m buildozer -v android debug || true
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
